@@ -84,7 +84,7 @@ export class App extends Component {
     const { filter } = this.state;
     return (
       <Application>
-        <PageTitle title="React homework #02 - phonebook" />
+        <PageTitle title="React homework #03 - phonebook" />
 
         <Section title="Phonebook">
           <AddContactForm
