@@ -6,17 +6,40 @@ import { Section } from 'components/Section';
 import { AddContactForm } from 'components/AddContactForm';
 import { ContactList } from 'components/ContactList';
 import { Filter } from 'components/Filter';
-import { initialContacts } from 'utilities';
 
 export class App extends Component {
   state = {
-    contacts: [...initialContacts],
+    contacts: [],
     filter: '',
   };
 
+  componentDidMount() {
+    const initialContacts = localStorage.getItem('contactList');
+    let parsedInitialContacts;
+    try {
+      parsedInitialContacts = JSON.parse(initialContacts);
+    } catch (error) {
+      console.log('Local Storage reading error', error.message);
+    }
+    if (parsedInitialContacts) {
+      this.setState({ contacts: parsedInitialContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const contacts = this.state.contacts;
+    if (contacts !== prevState.contacts) {
+      try {
+        localStorage.setItem('contactList', JSON.stringify(contacts));
+      } catch (error) {
+        console.log('Local Storage saving error', error.message);
+      }
+    }
+  }
+
   addContact = contact => {
     this.setState(prevState => ({
-      contacts: [...prevState.contacts, contact],
+      contacts: [contact, ...prevState.contacts],
     }));
   };
 
