@@ -7,6 +7,8 @@ import { AddContactForm } from 'components/AddContactForm';
 import { ContactList } from 'components/ContactList';
 import { Filter } from 'components/Filter';
 
+const LOCALSTORAGE_KEY = 'contactList';
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -14,7 +16,7 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    const initialContacts = localStorage.getItem('contactList');
+    const initialContacts = localStorage.getItem(LOCALSTORAGE_KEY);
     let parsedInitialContacts;
     try {
       parsedInitialContacts = JSON.parse(initialContacts);
@@ -30,7 +32,7 @@ export class App extends Component {
     const contacts = this.state.contacts;
     if (contacts !== prevState.contacts) {
       try {
-        localStorage.setItem('contactList', JSON.stringify(contacts));
+        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(contacts));
       } catch (error) {
         console.log('Local Storage saving error', error.message);
       }
